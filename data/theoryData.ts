@@ -27,7 +27,7 @@ export const pilarData: PilarItem[] = [
   {
     id: 'abstraksi',
     title: 'Abstraksi',
-    icon: 'Layers',
+    icon: '🔍',
     description:
       'Abstraksi adalah proses memilih informasi penting dan mengabaikan detail yang tidak relevan untuk menyederhanakan masalah.',
     examples: [
@@ -39,7 +39,7 @@ export const pilarData: PilarItem[] = [
   {
     id: 'algoritma',
     title: 'Algoritma',
-    icon: 'ListOrdered',
+    icon: '📋',
     description:
       'Algoritma adalah serangkaian langkah-langkah terstruktur dan logis untuk menyelesaikan suatu masalah atau mencapai tujuan tertentu.',
     examples: [
@@ -51,7 +51,7 @@ export const pilarData: PilarItem[] = [
   {
     id: 'dekomposisi',
     title: 'Dekomposisi',
-    icon: 'LayoutGrid',
+    icon: '🧩',
     description:
       'Dekomposisi adalah teknik memecah masalah besar dan kompleks menjadi bagian-bagian kecil yang lebih mudah diselesaikan satu per satu.',
     examples: [
@@ -63,7 +63,7 @@ export const pilarData: PilarItem[] = [
   {
     id: 'pola',
     title: 'Pengenalan Pola',
-    icon: 'ScanSearch',
+    icon: '🔗',
     description:
       'Pengenalan pola adalah kemampuan menemukan kesamaan atau keteraturan dalam data atau masalah, sehingga solusi yang sama dapat digunakan kembali.',
     examples: [
