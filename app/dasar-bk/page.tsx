@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { pillars } from "@/data/theoryData";
+import { pilarData as pillars } from "@/data/theoryData";
 
 export default function DasarBKPage() {
   const [activeTab, setActiveTab] = useState(0);
