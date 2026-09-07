@@ -4,10 +4,10 @@ import { useState, useEffect, useRef, useCallback } from "react";
 type Status = "idle" | "checking" | "found" | "not-matched";
 
 const BG: Record<Status, string> = {
-  idle: "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600",
-  checking: "bg-[#fbbf24] border-[#fbbf24] text-black",
-  found: "bg-[#22c55e] border-[#22c55e] text-white",
-  "not-matched": "bg-[#9ca3af] border-[#9ca3af] text-white",
+  idle: "bg-zinc-700 border-zinc-600 text-zinc-200",
+  checking: "bg-amber-500/20 border-amber-500 text-amber-300",
+  found: "bg-emerald-500/20 border-emerald-500 text-emerald-300",
+  "not-matched": "bg-zinc-800 border-zinc-700 text-zinc-500",
 };
 
 function randomArray(len = 8) {
@@ -104,88 +104,94 @@ export default function LinearSearchVis() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Input controls */}
-      <div className="flex flex-wrap gap-3 items-end">
-        <div className="flex-1 min-w-[200px]">
-          <label className="block text-sm font-medium mb-1">Array (pisahkan koma)</label>
-          <input
-            type="text"
-            value={inputStr || arr.join(", ")}
-            onChange={(e) => setInputStr(e.target.value)}
-            onBlur={handleApplyInput}
-            className="w-full px-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 text-sm"
-          />
+      <div className="bg-zinc-900 rounded-xl p-4 border border-zinc-800 ring-1 ring-white/5">
+        <div className="flex flex-wrap gap-3 items-end">
+          <div className="flex-1 min-w-[200px]">
+            <label className="block text-xs uppercase tracking-wider text-zinc-500 mb-2">Array (pisahkan koma)</label>
+            <input
+              type="text"
+              value={inputStr || arr.join(", ")}
+              onChange={(e) => setInputStr(e.target.value)}
+              onBlur={handleApplyInput}
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-100 text-sm px-3 py-2 focus:border-zinc-500 focus:outline-none"
+            />
+          </div>
+          <div className="w-24">
+            <label className="block text-xs uppercase tracking-wider text-zinc-500 mb-2">Target</label>
+            <input
+              type="number"
+              value={targetStr}
+              onChange={(e) => setTargetStr(e.target.value)}
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-100 text-sm px-3 py-2 focus:border-zinc-500 focus:outline-none"
+            />
+          </div>
+          <button onClick={handleRandomize} className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 rounded-lg px-3 py-2 text-sm transition-colors">
+            Acak
+          </button>
         </div>
-        <div className="w-24">
-          <label className="block text-sm font-medium mb-1">Target</label>
-          <input
-            type="number"
-            value={targetStr}
-            onChange={(e) => setTargetStr(e.target.value)}
-            className="w-full px-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 text-sm"
-          />
-        </div>
-        <button onClick={handleRandomize} className="px-4 py-2 bg-[#3b82f6] text-white rounded-lg text-sm hover:opacity-90">
-          Acak
-        </button>
       </div>
 
       {/* Control panel */}
-      <div className="flex flex-wrap gap-2 items-center">
-        {!isPlaying ? (
-          <button onClick={handleStart} className="px-4 py-2 bg-[#22c55e] text-white rounded-lg text-sm hover:opacity-90">
-            {done ? "Mulai Ulang" : "Mulai"}
+      <div className="bg-zinc-900 rounded-xl p-4 border border-zinc-800 ring-1 ring-white/5">
+        <div className="flex flex-wrap gap-2 items-center">
+          {!isPlaying ? (
+            <button onClick={handleStart} className="bg-zinc-100 text-zinc-900 hover:bg-white rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+              {done ? "Mulai Ulang" : "Mulai"}
+            </button>
+          ) : (
+            <button onClick={() => setIsPlaying(false)} className="bg-amber-500/20 border border-amber-500 text-amber-300 rounded-lg px-4 py-2 text-sm transition-colors">
+              Jeda
+            </button>
+          )}
+          <button onClick={stepForward} disabled={done} className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 rounded-lg px-3 py-2 text-sm transition-colors disabled:opacity-40">
+            Langkah Maju
           </button>
-        ) : (
-          <button onClick={() => setIsPlaying(false)} className="px-4 py-2 bg-[#fbbf24] text-black rounded-lg text-sm hover:opacity-90">
-            Jeda
+          <button onClick={reset} className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 rounded-lg px-3 py-2 text-sm transition-colors">
+            Reset
           </button>
-        )}
-        <button onClick={stepForward} disabled={done} className="px-4 py-2 bg-gray-600 text-white rounded-lg text-sm hover:opacity-90 disabled:opacity-50">
-          Langkah Maju
-        </button>
-        <button onClick={reset} className="px-4 py-2 bg-[#ef4444] text-white rounded-lg text-sm hover:opacity-90">
-          Reset
-        </button>
-        <div className="flex items-center gap-2 ml-auto">
-          <span className="text-sm">Kecepatan:</span>
-          <input type="range" min={0.5} max={2} step={0.5} value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} className="w-24" />
-          <span className="text-sm font-mono w-8">{speed}x</span>
+          <div className="flex items-center gap-2 ml-auto">
+            <span className="text-xs uppercase tracking-wider text-zinc-500">Kecepatan:</span>
+            <input type="range" min={0.5} max={2} step={0.5} value={speed} onChange={(e) => setSpeed(parseFloat(e.target.value))} className="w-24 accent-emerald-500" />
+            <span className="text-sm font-mono text-zinc-400 w-8">{speed}x</span>
+          </div>
         </div>
       </div>
 
       {/* Visualization */}
-      <div className="flex gap-1 sm:gap-2 justify-center items-end py-6 overflow-x-auto">
-        {arr.map((val, i) => (
-          <div key={i} className="flex flex-col items-center transition-all duration-300">
-            <div
-              className={`w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center border-2 rounded-lg font-bold text-sm sm:text-lg transition-all duration-300 ${
-                statuses[i] ? BG[statuses[i]] : BG.idle
-              }`}
-            >
-              {val}
-            </div>
-            <span className="text-xs text-gray-500 mt-1">[{i}]</span>
-            {/* Pointer arrow */}
-            {currentIndex === i && (
-              <div className="mt-1 transition-all duration-300">
-                <svg width="16" height="16" viewBox="0 0 16 16" className="text-[#3b82f6]">
-                  <polygon points="8,0 16,16 0,16" fill="currentColor" />
-                </svg>
+      <div className="bg-zinc-950/50 rounded-xl p-6 border border-zinc-800 min-h-[200px] flex items-center justify-center">
+        <div className="flex gap-1 sm:gap-2 justify-center items-end overflow-x-auto">
+          {arr.map((val, i) => (
+            <div key={i} className="flex flex-col items-center transition-all duration-300 ease-in-out">
+              <div
+                className={`min-w-[2.5rem] h-10 sm:min-w-[3rem] sm:h-12 flex items-center justify-center border-2 rounded-lg font-medium text-sm transition-all duration-300 ease-in-out ${
+                  statuses[i] ? BG[statuses[i]] : BG.idle
+                }`}
+              >
+                {val}
               </div>
-            )}
-          </div>
-        ))}
+              <span className="text-xs text-zinc-500 mt-1 font-mono">[{i}]</span>
+              {/* Pointer arrow */}
+              {currentIndex === i && (
+                <div className="mt-1 transition-all duration-300">
+                  <svg width="16" height="16" viewBox="0 0 16 16" className="text-emerald-400">
+                    <polygon points="8,0 16,16 0,16" fill="currentColor" />
+                  </svg>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Status panel */}
-      <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-1">
-        <p className="text-sm">
-          <span className="font-semibold">Iterasi:</span> {iterations}
+      <div className="bg-zinc-900/50 border border-zinc-800 rounded-lg p-3">
+        <p className="text-sm font-mono text-zinc-300">
+          <span className="text-zinc-500">Iterasi:</span> {iterations}
         </p>
         {message && (
-          <p className={`text-sm font-medium ${done && message.includes("ditemukan di") ? "text-[#22c55e]" : done ? "text-[#ef4444]" : "text-[#fbbf24] dark:text-[#fbbf24]"}`}>
+          <p className={`text-sm font-mono mt-1 ${done && message.includes("ditemukan di") ? "text-emerald-400" : done ? "text-red-400" : "text-amber-300"}`}>
             {message}
           </p>
         )}

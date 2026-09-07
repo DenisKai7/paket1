@@ -43,29 +43,31 @@ export default function StackVis() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Controls */}
-      <div className="flex flex-wrap gap-3 items-end">
-        <div className="w-32">
-          <label className="block text-sm font-medium mb-1">Nilai</label>
-          <input
-            type="number"
-            value={inputVal}
-            onChange={(e) => setInputVal(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && push()}
-            placeholder="Angka"
-            className="w-full px-3 py-2 border rounded-lg dark:bg-gray-800 dark:border-gray-600 text-sm"
-          />
+      <div className="bg-zinc-900 rounded-xl p-4 border border-zinc-800 ring-1 ring-white/5">
+        <div className="flex flex-wrap gap-3 items-end">
+          <div className="w-32">
+            <label className="block text-xs uppercase tracking-wider text-zinc-500 mb-2">Nilai</label>
+            <input
+              type="number"
+              value={inputVal}
+              onChange={(e) => setInputVal(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && push()}
+              placeholder="Angka"
+              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-100 text-sm px-3 py-2 focus:border-zinc-500 focus:outline-none"
+            />
+          </div>
+          <button onClick={push} className="bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg px-4 py-2 text-sm font-medium transition-colors">
+            Push
+          </button>
+          <button onClick={pop} className="bg-zinc-700 hover:bg-zinc-600 border border-zinc-600 text-zinc-200 rounded-lg px-4 py-2 text-sm transition-colors">
+            Pop
+          </button>
+          <button onClick={() => { setStack([]); setMessage(""); }} className="bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-200 rounded-lg px-3 py-2 text-sm transition-colors">
+            Reset
+          </button>
         </div>
-        <button onClick={push} className="px-4 py-2 bg-[#22c55e] text-white rounded-lg text-sm hover:opacity-90">
-          Push
-        </button>
-        <button onClick={pop} className="px-4 py-2 bg-[#ef4444] text-white rounded-lg text-sm hover:opacity-90">
-          Pop
-        </button>
-        <button onClick={() => { setStack([]); setMessage(""); }} className="px-4 py-2 bg-gray-600 text-white rounded-lg text-sm hover:opacity-90">
-          Reset
-        </button>
       </div>
 
       {/* Stack Visual */}
@@ -74,26 +76,26 @@ export default function StackVis() {
           {/* TOP label */}
           {stack.length > 0 && (
             <div className="flex items-center gap-1 mb-1 justify-center">
-              <svg width="12" height="12" viewBox="0 0 12 12" className="text-[#ef4444]">
+              <svg width="12" height="12" viewBox="0 0 12 12" className="text-emerald-400">
                 <polygon points="6,0 12,12 0,12" fill="currentColor" />
               </svg>
-              <span className="text-xs font-bold text-[#ef4444]">TOP</span>
+              <span className="text-xs uppercase tracking-wider text-zinc-500 font-bold">TOP</span>
             </div>
           )}
 
           {/* Stack container */}
-          <div className="border-l-4 border-r-4 border-b-4 border-gray-400 dark:border-gray-500 rounded-b-lg p-1 min-w-[120px] sm:min-w-[160px]" style={{ minHeight: 280 }}>
+          <div className="border-2 border-zinc-700 rounded-xl bg-zinc-950 p-1 min-w-[120px] sm:min-w-[160px] min-h-[320px]">
             <div className="flex flex-col-reverse gap-1">
               {stack.length === 0 && (
-                <div className="text-center text-gray-400 py-8 text-sm italic">Tumpukan kosong</div>
+                <div className="text-center text-zinc-500 py-8 text-sm italic">Tumpukan kosong</div>
               )}
               {stack.map((val, i) => (
                 <div
                   key={`${i}-${val}`}
-                  className={`px-4 py-3 text-center font-bold rounded border-2 text-sm sm:text-base transition-all duration-300 ${
+                  className={`px-4 py-3 text-center font-medium rounded-lg border-2 text-sm sm:text-base transition-all duration-300 ${
                     i === stack.length - 1
-                      ? "bg-[#3b82f6] border-[#3b82f6] text-white"
-                      : "bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-500"
+                      ? "bg-emerald-500/20 border-emerald-500 text-emerald-300"
+                      : "bg-zinc-700 border-zinc-600 text-zinc-200"
                   } ${animating === i ? "scale-105" : ""}`}
                   style={{
                     transform: animating === i ? "translateY(-8px)" : "translateY(0)",
@@ -107,29 +109,29 @@ export default function StackVis() {
           </div>
 
           {/* BOTTOM label */}
-          <div className="text-center mt-1">
-            <span className="text-xs font-bold text-gray-500">BOTTOM</span>
+          <div className="text-center mt-2">
+            <span className="text-xs uppercase tracking-wider text-zinc-500">BOTTOM</span>
           </div>
         </div>
       </div>
 
       {/* Capacity indicator */}
-      <div className="flex justify-center">
-        <div className="bg-gray-100 dark:bg-gray-800 rounded-full h-2 w-48">
+      <div className="flex justify-center items-center">
+        <div className="bg-zinc-800 rounded-full h-2 w-48">
           <div
-            className={`h-2 rounded-full transition-all duration-300 ${stack.length >= MAX_SIZE ? "bg-[#ef4444]" : "bg-[#3b82f6]"}`}
+            className={`h-2 rounded-full transition-all duration-300 ${stack.length >= MAX_SIZE ? "bg-red-500" : "bg-emerald-500"}`}
             style={{ width: `${(stack.length / MAX_SIZE) * 100}%` }}
           />
         </div>
-        <span className="text-xs ml-2 text-gray-500">{stack.length}/{MAX_SIZE}</span>
+        <span className="text-xs ml-2 text-zinc-500 font-mono">{stack.length}/{MAX_SIZE}</span>
       </div>
 
       {/* Info */}
       {message && (
-        <div className={`rounded-lg p-4 text-sm font-medium ${
-          msgType === "error" ? "bg-red-50 dark:bg-red-900/20 text-[#ef4444]" :
-          msgType === "success" ? "bg-green-50 dark:bg-green-900/20 text-[#22c55e]" :
-          "bg-blue-50 dark:bg-blue-900/20 text-[#3b82f6]"
+        <div className={`rounded-lg p-3 text-sm font-mono ${
+          msgType === "error" ? "bg-red-500/10 border border-red-500/30 text-red-400" :
+          msgType === "success" ? "bg-emerald-500/10 border border-emerald-500/30 text-emerald-400" :
+          "bg-zinc-900/50 border border-zinc-800 text-zinc-300"
         }`}>
           {message}
         </div>

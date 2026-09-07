@@ -44,15 +44,15 @@ export default function QuizEngine() {
 
   if (finished) {
     return (
-      <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
-        <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-50">
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 ring-1 ring-white/5 sm:p-8">
+        <h2 className="mb-6 text-2xl font-bold text-zinc-100">
           Hasil Kuis
         </h2>
-        <div className="mb-6 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 p-6 text-center text-white">
-          <div className="text-5xl font-extrabold">
+        <div className="mb-8 rounded-xl border border-zinc-800 bg-zinc-800/50 p-8 text-center">
+          <div className="text-5xl font-extrabold text-zinc-100">
             {score}/{total}
           </div>
-          <div className="mt-1 text-blue-100">
+          <div className="mt-2 text-zinc-400">
             {score === total
               ? "Sempurna! Luar biasa!"
               : score >= total * 0.7
@@ -61,9 +61,9 @@ export default function QuizEngine() {
           </div>
         </div>
 
-        <h3 className="mb-3 font-semibold text-gray-800 dark:text-gray-200">Ringkasan Jawaban</h3>
-        <div className="space-y-3 mb-6">
-          {quizData.map((item, i) => {
+        <h3 className="mb-4 text-xs uppercase tracking-wider text-zinc-500">Ringkasan Jawaban</h3>
+        <div className="space-y-3 mb-8">
+          {quizData.map((item: QuizQuestion, i: number) => {
             const userAns = answers[i];
             const correct = userAns === item.correctIndex;
             return (
@@ -71,14 +71,14 @@ export default function QuizEngine() {
                 key={i}
                 className={`rounded-lg border p-4 text-sm ${
                   correct
-                    ? "border-green-300 bg-green-50 dark:border-green-800 dark:bg-green-950/30"
-                    : "border-red-300 bg-red-50 dark:border-red-800 dark:bg-red-950/30"
+                    ? "border-emerald-500/40 bg-emerald-500/10"
+                    : "border-red-500/40 bg-red-500/10"
                 }`}
               >
-                <div className="font-medium text-gray-800 dark:text-gray-200">
+                <div className="font-medium text-zinc-200">
                   {correct ? "✅" : "❌"} Soal {i + 1}: {item.question}
                 </div>
-                <div className="mt-1 text-gray-600 dark:text-gray-400">
+                <div className="mt-1 text-zinc-400">
                   Jawabanmu: {userAns !== null ? item.options[userAns] : "-"} | Jawaban benar:{" "}
                   {item.options[item.correctIndex]}
                 </div>
@@ -89,7 +89,7 @@ export default function QuizEngine() {
 
         <button
           onClick={handleReset}
-          className="rounded-full bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 transition-colors"
+          className="rounded-lg bg-zinc-100 px-6 py-3 font-medium text-zinc-900 hover:bg-white transition-colors"
         >
           Ulangi Kuis
         </button>
@@ -98,37 +98,37 @@ export default function QuizEngine() {
   }
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-700 dark:bg-gray-900">
+    <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6 ring-1 ring-white/5 sm:p-8">
       {/* Progress */}
-      <div className="mb-6 flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+      <div className="mb-4 flex items-center justify-between text-sm text-zinc-500">
         <span>
           Soal {current + 1} dari {total}
         </span>
         <span>Skor: {score}</span>
       </div>
-      <div className="mb-6 h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+      <div className="mb-8 h-1.5 w-full rounded-full bg-zinc-800">
         <div
-          className="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all"
+          className="h-1.5 rounded-full bg-emerald-500 transition-all"
           style={{ width: `${((current + 1) / total) * 100}%` }}
         />
       </div>
 
       {/* Question */}
-      <h2 className="mb-6 text-lg font-semibold text-gray-900 dark:text-gray-50">
+      <h2 className="mb-8 text-lg font-semibold text-zinc-100 leading-relaxed">
         {q.question}
       </h2>
 
       {/* Options */}
-      <div className="space-y-3 mb-6">
+      <div className="space-y-3 mb-8">
         {q.options.map((opt, i) => {
-          let style = "border-gray-200 bg-gray-50 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-750";
+          let style = "border-zinc-700 bg-zinc-800 hover:border-zinc-500 text-zinc-200";
           if (showResult) {
             if (i === q.correctIndex) {
-              style = "border-green-500 bg-green-50 ring-2 ring-green-500 dark:bg-green-950/30";
+              style = "border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500 text-emerald-300";
             } else if (i === selected && i !== q.correctIndex) {
-              style = "border-red-500 bg-red-50 ring-2 ring-red-500 dark:bg-red-950/30";
+              style = "border-red-500 bg-red-500/10 ring-1 ring-red-500 text-red-300";
             } else {
-              style = "border-gray-200 bg-gray-50 opacity-50 dark:border-gray-700 dark:bg-gray-800";
+              style = "border-zinc-800 bg-zinc-800/50 opacity-50 text-zinc-500";
             }
           }
           return (
@@ -136,11 +136,11 @@ export default function QuizEngine() {
               key={i}
               onClick={() => handleSelect(i)}
               disabled={showResult}
-              className={`w-full rounded-xl border p-4 text-left text-sm font-medium transition-all ${style} ${
+              className={`w-full rounded-lg border p-4 text-left text-sm font-medium transition-all ${style} ${
                 !showResult ? "cursor-pointer" : "cursor-default"
               }`}
             >
-              <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-gray-200 text-xs font-bold dark:bg-gray-700">
+              <span className="mr-3 inline-flex h-6 w-6 items-center justify-center rounded bg-zinc-700 text-xs font-bold text-zinc-300">
                 {String.fromCharCode(65 + i)}
               </span>
               {opt}
@@ -152,16 +152,16 @@ export default function QuizEngine() {
       {/* Feedback */}
       {showResult && (
         <div
-          className={`mb-6 rounded-xl p-4 text-sm ${
+          className={`mb-8 rounded-lg border p-4 text-sm ${
             selected === q.correctIndex
-              ? "bg-green-50 text-green-800 dark:bg-green-950/30 dark:text-green-300"
-              : "bg-red-50 text-red-800 dark:bg-red-950/30 dark:text-red-300"
+              ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-300"
+              : "border-red-500/30 bg-red-500/10 text-red-300"
           }`}
         >
           <div className="font-semibold mb-1">
             {selected === q.correctIndex ? "✅ Benar!" : "❌ Salah!"}
           </div>
-          <div>{q.explanation}</div>
+          <div className="text-zinc-300">{q.explanation}</div>
         </div>
       )}
 
@@ -169,7 +169,7 @@ export default function QuizEngine() {
       {showResult && (
         <button
           onClick={handleNext}
-          className="rounded-full bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700 transition-colors"
+          className="rounded-lg bg-zinc-100 px-6 py-3 font-medium text-zinc-900 hover:bg-white transition-colors"
         >
           {current + 1 >= total ? "Lihat Hasil" : "Soal Berikutnya →"}
         </button>
