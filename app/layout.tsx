@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1">{children}</main>
         <footer className="border-t border-zinc-800">
           <div className="mx-auto max-w-6xl px-6 py-8 text-center text-sm text-zinc-500">
-            &copy; 2024 Berpikir Komputasional — Platform Pembelajaran Interaktif
+            &copy; 2026 Berpikir Komputasional — Jofanza Denis Aldida. All rights reserved.
           </div>
         </footer>
       </body>
